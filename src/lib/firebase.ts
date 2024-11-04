@@ -7,14 +7,14 @@ import { getFirestore } from "firebase/firestore/lite";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBv40_ul4FBbQPOqImBsPBPX3P_tST2RF0",
-  authDomain: "wireup-fa74b.firebaseapp.com",
-  databaseURL: "https://wireup-fa74b-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "wireup-fa74b",
-  storageBucket: "wireup-fa74b.appspot.com",
-  messagingSenderId: "306637600231",
-  appId: "1:306637600231:web:06909fba1e57796c3f7942",
-  measurementId: "G-HKK5R7DVPT"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 // Initialize Firebase
