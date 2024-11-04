@@ -1,10 +1,9 @@
-import { getAllFlipNews, IFlipnews } from "@/lib/newsquery";
-import Flipnews from "@/components/flip-news-card";
 import FlipFlopSection from "@/components/flip-flop-section";
+import { getAllFlipNews } from "@/lib/newsquery";
 
 const FlipNewsPage = async() => {
     const news=await getAllFlipNews();
-  return (
+  return (  
     <FlipFlopSection news={news}/>
   );
 };
