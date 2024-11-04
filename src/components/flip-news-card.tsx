@@ -49,13 +49,13 @@ export default function Flipnews({news}:{news: IFlipnews}) {
 
   return (
     
-      <Card className={`w-full max-w-md transition-all duration-500 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}>
+      <Card className={`w-full max-w-md transition-all duration-500 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'} ${isFirstNews?"border-green-500 shadow-green-700":"border-red-700 shadow-red-700"}`}>
         <CardHeader className="pb-2">
+            <Link href={`flipnews/${news.id}`} className='hover:text-blue-600'>
           <CardTitle className="text-xl font-bold line-clamp-2">
-            <Link href={`flipnews/${news.id}`}>
             {isFirstNews ? heading1 : heading2}
-            </Link>
           </CardTitle>
+            </Link>
         </CardHeader>
         <CardContent className="pb-2">
           <div className={`transition-opacity duration-500 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>

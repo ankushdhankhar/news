@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge"
 import { Clock } from "lucide-react"
 import Image from "next/image"
 import { INews } from "@/lib/newsquery"
+import Link from "next/link"
 
 
 export function NewsCardComponent({ news }: { news: INews }) {
@@ -32,7 +33,9 @@ export function NewsCardComponent({ news }: { news: INews }) {
         </div>
       </CardHeader>
       <CardContent className="p-4">
-        <h2 className="text-xl font-bold mb-2 line-clamp-2">{news.heading}</h2>
+      <Link href={`/news/${news.id}`} >
+        <h3 className="text-2xl font-bold text-gray-800 line-clamp-2 hover:text-blue-600">{news.heading}</h3>
+        </Link>
         <p className="text-muted-foreground mb-4 line-clamp-3">{news.description}</p>
         <div className="flex flex-wrap gap-2 mb-4">
           {news.tags.map((tag, index) => (

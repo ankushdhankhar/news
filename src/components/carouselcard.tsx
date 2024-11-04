@@ -7,20 +7,22 @@ import Link from "next/link";
 
 const CarouselCard = ({ news }: { news: INews }) => {
   return (
-    <Card className="flex w-full bg-white shadow-lg hover:shadow-xl  transition-all duration-300 rounded-lg overflow-hidden">
+    <Card className="flex flex-col sm:flex-row w-full bg-white shadow-lg hover:shadow-xl  transition-all duration-300 rounded-lg overflow-hidden">
       {/* Image Section with Gradient Overlay */}
-      <div className="relative w-1/3 ">
+      <div className="relative  sm:w-2/5  md:w-1/3  overflow-hidden">
         <img
           src={news.imageUrl}
           alt={news.heading}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-75 rounded-r-lg"></div>
+       
       </div>
       
       {/* Content Section */}
       <CardContent className="flex-1 p-6 relative">
-        <h3 className="text-2xl font-bold text-gray-800 line-clamp-2">{news.heading}</h3>
+        <Link href={`/news/${news.id}`} >
+        <h3 className="text-2xl font-bold text-gray-800 line-clamp-2 hover:text-blue-600">{news.heading}</h3>
+        </Link>
         <p className="text-gray-600 mb-3 mt-2 line-clamp-3">{news.description}</p>
         <p className="text-sm text-gray-500 line-clamp-2 italic">By {news.report}</p>
         
