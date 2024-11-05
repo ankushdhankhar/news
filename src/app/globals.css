@@ -67,3 +67,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.squiggle {
+  filter: url("#squiggle") !important;
+  position: relative !important;
+  transform: translateZ(0) !important;
+}

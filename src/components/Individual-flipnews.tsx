@@ -1,59 +1,75 @@
-import { Badge } from "@/components/ui/badge"; // Assume shadcn Badge component is available
-import { Calendar } from "lucide-react"; // Icon for date
-import { IFlipnews } from "@/lib/newsquery";
+'use client'
 
-const FlipNewsDisplay = ({ news }: { news: IFlipnews }) => {
+import { useState } from 'react'
+import Image from 'next/image'
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card"
+import { Switch } from "@/components/ui/switch"
+import { IFlipnews } from '@/lib/newsquery'
+
+
+
+function formatDate(timestamp: number): string {
+  const date = new Date(timestamp)
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
+
+export default function FlipFlopNewsPage({ news }: { news: IFlipnews }) {
+  const [isFlipped, setIsFlipped] = useState(false)
+
+  const toggleView = () => {
+    setIsFlipped(!isFlipped)
+  }
+
+  const currentView = isFlipped ? 2 : 1
+
   return (
-    <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-6 space-y-6">
-      {/* Date Section */}
-      <div className="flex items-center gap-2 text-gray-600 text-sm mb-4">
-        <Calendar className="w-4 h-4 text-gray-400" />
-        <span>{new Date(news.time).toLocaleDateString("en-US", {
-          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-        })}</span>
-      </div>
-
-      {/* First News Item */}
-      <div className="flex flex-col md:flex-row gap-6 mb-4">
-        <div className="flex-1 w-full h-48 rounded-lg overflow-hidden">
-          <img
-            src={news.imageUrl1}
-            alt={news.heading1}
-            className="w-full h-full object-cover rounded-lg transition-transform transform hover:scale-105 duration-300"
-          />
-        </div>
-        <div className="flex-1 space-y-2">
-          <h2 className="text-2xl font-bold text-gray-800">{news.heading1}</h2>
-          <p className="text-gray-700 leading-relaxed">{news.description1}</p>
-          <div className="italic text-gray-600 text-sm">By {news.report1}</div>
-        </div>
-      </div>
-
-      {/* Second News Item */}
-      <div className="flex flex-col md:flex-row gap-6">
-        <div className="flex-1 w-full h-48 rounded-lg overflow-hidden">
-          <img
-            src={news.imageUrl2}
-            alt={news.heading2}
-            className="w-full h-full object-cover rounded-lg transition-transform transform hover:scale-105 duration-300"
-          />
-        </div>
-        <div className="flex-1 space-y-2">
-          <h2 className="text-2xl font-bold text-gray-800">{news.heading2}</h2>
-          <p className="text-gray-700 leading-relaxed">{news.description2}</p>
-          <div className="italic text-gray-600 text-sm">By {news.report2}</div>
-        </div>
-      </div>
-
-      {/* Tags Section */}
-      <div className="flex gap-2 flex-wrap mt-4">
-        {/* Assuming tags could be added in the future, or you can include a static example */}
-        {/* <Badge key={tag} variant="secondary" className="bg-blue-100 text-blue-600 px-2 py-1 rounded-full">
-          {tag}
-        </Badge> */}
-      </div>
+    <div className="container mx-auto px-4 py-8">
+      <Card className="max-w-4xl mx-auto">
+        <CardHeader>
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-3xl font-bold">
+              {isFlipped ? news.heading2 : news.heading1}
+            </h1>
+            <div className="flex items-center space-x-2">
+              <span className="text-sm text-gray-500">View {currentView}</span>
+              <Switch checked={isFlipped} onCheckedChange={toggleView} />
+            </div>
+          </div>
+          <p className="text-gray-500">Published on: {formatDate(news.time)}</p>
+        </CardHeader>
+        <CardContent>
+          <div className="relative w-full h-[400px] mb-6">
+            <Image
+              src={isFlipped ? news.imageUrl2 : news.imageUrl1}
+              alt={isFlipped ? news.heading2 : news.heading1}
+              fill
+              className="object-cover rounded-lg"
+            />
+          </div>
+          <p className="text-xl mb-4">
+            {isFlipped ? news.description2 : news.description1}
+          </p>
+          <div className="prose max-w-none">
+            {isFlipped ? (
+              <div dangerouslySetInnerHTML={{ __html: news.report2 }} />
+            ) : (
+              <div dangerouslySetInnerHTML={{ __html: news.report1 }} />
+            )}
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button onClick={toggleView} className="w-full">
+            Switch to View {isFlipped ? 1 : 2}
+          </Button>
+        </CardFooter>
+      </Card>
     </div>
-  );
-};
-
-export default FlipNewsDisplay;
+  )
+}

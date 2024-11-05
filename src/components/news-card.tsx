@@ -1,56 +1,51 @@
-'use client'
-
+import Image from 'next/image'
+import Link from 'next/link'
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Clock } from "lucide-react"
-import Image from "next/image"
-import { INews } from "@/lib/newsquery"
-import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { INews } from '@/lib/newsquery'
 
 
-export function NewsCardComponent({ news }: { news: INews }) {
-  const formatTime = (timestamp: number) => {
-    const date = new Date(timestamp * 1000) // Convert to milliseconds
-    return date.toLocaleString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric', 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    })
-  }
+function formatDate(timestamp: number): string {
+  const date = new Date(timestamp)
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  }).replace(/\//g, '-')
+}
 
+export default function NewsCard({ news,flipflop }: { news: INews,flipflop?:boolean }) {
   return (
-    <Card className="max-w-sm overflow-hidden">
+    <Card className="transition-all duration-75 ease-in-out hover:-translate-y-2 max-w-[360px] h-[450px] flex flex-col">
       <CardHeader className="p-0">
-        <div className="relative h-48 w-full">
+        <div className="relative w-full aspect-[3/2]">
           <Image
             src={news.imageUrl}
             alt={news.heading}
-            layout="fill"
-            objectFit="cover"
+            fill
+            className="object-cover rounded-t-xl"
           />
         </div>
       </CardHeader>
-      <CardContent className="p-4">
-      <Link href={`/news/${news.id}`} >
-        <h3 className="text-2xl font-bold text-gray-800 line-clamp-2 hover:text-blue-600">{news.heading}</h3>
-        </Link>
-        <p className="text-muted-foreground mb-4 line-clamp-3">{news.description}</p>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {news.tags.map((tag, index) => (
-            <Badge key={index} variant="secondary">
-              {tag}
-            </Badge>
-          ))}
+      <CardContent className="flex-grow flex flex-col justify-between p-4">
+        <div>
+          <h3 className="font-bold text-xl leading-tight line-clamp-2 mb-2">
+            {news.heading}
+          </h3>
+          <p className="line-clamp-3 text-sm text-gray-600">
+            {news.description}
+          </p>
         </div>
       </CardContent>
-      <CardFooter className="px-4 py-2 bg-muted flex justify-between items-center">
-        <div className="flex items-center text-sm text-muted-foreground">
-          <Clock className="mr-1 h-4 w-4" />
-          {formatTime(news.time)}
-        </div>
-        {/* You can add a "Read More" link here if needed */}
+      <CardFooter className="flex justify-between items-center p-4">
+        <p className="text-sm text-gray-600">
+          {formatDate(news.time)}
+        </p>
+        <Button asChild variant="outline" className="bg-pink-50 border-pink-300 hover:-translate-y-1 transition-transform">
+          <Link href={`/${flipflop?'flipnews':'news'}/${news.id}`}>
+            Read more &rarr;
+          </Link>
+        </Button>
       </CardFooter>
     </Card>
   )

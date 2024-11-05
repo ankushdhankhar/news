@@ -1,100 +1,59 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
-import { RefreshCw, Clock } from 'lucide-react'
-import { IFlipnews } from '@/lib/newsquery'
-import Image from 'next/image'
-import Link from 'next/link'
+import NewsCard from './news-card'
+import { IFlipnews, INews } from '@/lib/newsquery'
 
+export default function FlipFlopCard({ news }: { news: IFlipnews }) {
+  const [isFlipped, setIsFlipped] = useState(false)
 
-
-const fallbackImageUrl = '/placeholder.svg?height=200&width=300'
-
-const truncate = (str: string, n: number) => {
-  return str.length > n ? str.slice(0, n - 1) + '...' : str
-}
-
-export default function Flipnews({news}:{news: IFlipnews}) {
-
-  const { 
-    heading1, description1, report1, imageUrl1, 
-    heading2, description2, report2, imageUrl2, 
-    time 
-  }=news
-  const [isFirstNews, setIsFirstNews] = useState(true)
-  const [isAnimating, setIsAnimating] = useState(false)
-  const formatTime = (timestamp: number) => {
-    const date = new Date(timestamp * 1000) // Convert to milliseconds
-    return date.toLocaleString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric', 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    })
-  }
-  const toggleNews = () => {
-    setIsAnimating(true)
-    setIsFirstNews(prev => !prev)
+  const handleFlip = () => {
+    setIsFlipped(!isFlipped)
   }
 
-  useEffect(() => {
-    if (isAnimating) {
-      const timer = setTimeout(() => setIsAnimating(false), 500)
-      return () => clearTimeout(timer)
-    }
-  }, [isAnimating])
+  const news1: INews = {
+    heading: news.heading1,
+    description: news.description1,
+    imageUrl: news.imageUrl1,
+    id: news.id,
+    report: news.report1,
+    tags: [],
+    time: news.time
+  }
+
+  const news2: INews = {
+    heading: news.heading2,
+    description: news.description2,
+    imageUrl: news.imageUrl2,
+    id: news.id,
+    report: news.report2,
+    tags: [],
+    time: news.time
+  }
 
   return (
-    
-      <Card className={`w-full max-w-md transition-all duration-500 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'} ${isFirstNews?"border-green-500 shadow-green-700":"border-red-700 shadow-red-700"}`}>
-        <CardHeader className="pb-2">
-            <Link href={`flipnews/${news.id}`} className='hover:text-blue-600'>
-          <CardTitle className="text-xl font-bold line-clamp-2">
-            {isFirstNews ? heading1 : heading2}
-          </CardTitle>
-            </Link>
-        </CardHeader>
-        <CardContent className="pb-2">
-          <div className={`transition-opacity duration-500 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
-            <Image
-              src={isFirstNews ? imageUrl1 : imageUrl2}
-              alt={isFirstNews ? heading1 : heading2}
-              height={300}
-              width={400}
-              onError={(e) => {
-                e.currentTarget.src = fallbackImageUrl
-              }}
-              className="w-full h-40 object-cover mb-2 rounded-md"
-            />
-            <p className="text-sm text-gray-600 mb-1 line-clamp-2 font-bold">
-              {isFirstNews ? description1 : description2}
-            </p>
-            
-            <p className="text-xs  line-clamp-2 bg-gray-50 rounded p-1">
-              {isFirstNews ? report1 : report2}
-            </p>
+    <div className="flip-card-container max-w-[360px] mx-auto w-full">
+      <div className="relative w-full h-[450px]">
+        <div
+          className={`absolute w-full h-full transition-all duration-500 [transform-style:preserve-3d] ${isFlipped ? '[transform:rotateY(180deg)]' : ''
+            }`}
+        >
+          <div className="absolute w-full h-full [backface-visibility:hidden]">
+            <NewsCard news={news1} flipflop/>
           </div>
-        </CardContent>
-        <CardFooter className="flex justify-between items-center pt-2">
-          <div className="flex items-center text-gray-400 text-xs">
-            <Clock className="w-3 h-3 mr-1" />
-            {formatTime(time)}
+          <div className="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
+            <NewsCard news={news2} flipflop/>
           </div>
-          <Button 
-            onClick={toggleNews} 
-            variant="outline"
-            disabled={isAnimating}
-            className="flex items-center text-xs h-8 px-2"
-          >
-            <RefreshCw className="w-3 h-3 mr-1" />
-            Toggle News
-          </Button>
-        </CardFooter>
-      </Card>
-     
-   
+        </div>
+      </div>
+      <Button
+        onClick={handleFlip}
+        className={`w-full rounded-t-none ${isFlipped ? 'bg-green-500 hover:bg-green-600' : 'bg-red-500 hover:bg-red-600'
+          }`}
+      >
+        Flip News
+      </Button>
+    </div>
   )
 }

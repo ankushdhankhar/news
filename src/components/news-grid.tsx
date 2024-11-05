@@ -1,27 +1,41 @@
-import { IFlipnews, INews } from "@/lib/newsquery";
-import Flipnews from "./flip-news-card";
-import { NewsCardComponent } from "./news-card";
+"use client"
+import { useState, useMemo } from 'react'
+import { INews } from '@/lib/newsquery'
+import NewsGrid from './news-grid'
+import NewsFilters from './news-filters'
+import NewsCard from './news-card'
 
-const NewsGrid = ({ news }: { news: INews[] }) => {
+export default function NewsPage({ news }: { news: INews[] }) {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [activeCategory, setActiveCategory] = useState('All')
+
+  const categories = useMemo(() => {
+    const allCategories = news.flatMap(item => item.tags)
+    return Array.from(new Set(allCategories))
+  }, [news])
+
+  const filteredNews = useMemo(() => {
+    return news.filter(item => {
+      const matchesSearch = item.heading.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            item.description.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesCategory = activeCategory === 'All' || item.tags.includes(activeCategory)
+      return matchesSearch && matchesCategory
+    })
+  }, [news, searchTerm, activeCategory])
+
+  const handleFilterChange = (search: string, category: string) => {
+    setSearchTerm(search)
+    setActiveCategory(category)
+  }
+
   return (
-    <section className="w-full max-w-6xl mx-auto px-6 py-12 bg-gradient-to-br from-indigo-50 via-white to-indigo-100 rounded-lg ">
-      {/* Section Title */}
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-extrabold  relative inline-block">
-          News
-          <span className="absolute inset-x-0 -bottom-1 h-1 bg-indigo-300 rounded"></span>
-        </h2>
-        <p className="text-gray-600 mt-2">Catch up on the latest </p>
-      </div>
-      
-      {/* News Cards */}
-      <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 ">
-        {news.map((item, index) => (
-          <NewsCardComponent key={index} news={item} />
-        ))}
-      </div>
-    </section>
-  );
-};
-
-export default NewsGrid;
+    <>
+      <NewsFilters categories={categories} onFilterChange={handleFilterChange} />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {filteredNews.map((item) => (
+        <NewsCard key={item.id} news={item} />
+      ))}
+    </div>
+    </>
+  )
+}
