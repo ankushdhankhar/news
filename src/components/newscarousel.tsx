@@ -14,7 +14,7 @@ import Link from "next/link";
 
 const  NewsCarousel = ({ news, onSeeAll }: { news: INews[]; onSeeAll?: () => void }) => {
   return (
-    <div className="relative w-full max-w-6xl mx-auto px-4 py-8">
+    <div className="relative w-full max-w-6xl mx-auto px-4 py-8 overflow-hidden">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Latest News</h2>
         <Link href={'/news'}>
@@ -36,8 +36,8 @@ const  NewsCarousel = ({ news, onSeeAll }: { news: INews[]; onSeeAll?: () => voi
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious hidden/>
+        <CarouselNext hidden/>
       </Carousel>
     </div>
   );

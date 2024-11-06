@@ -1,16 +1,16 @@
 import FlipFlopSection from "@/components/flip-flop-section";
 import NewsCarousel from "@/components/newscarousel";
-import { getAllFlipNews, getAllNews } from "@/lib/newsquery";
+import { getAllFlipNews, getAllNews, getPaginatedFlipNews, getPaginatedNews } from "@/lib/newsquery";
 
 export default async function Home() {
-  const news=await getAllNews();
-  const flipNews =await getAllFlipNews()
+  const {data:news}=await getPaginatedNews(1,6);
+  const {data:flipnews} =await getPaginatedFlipNews(1,3)
   // console.log(news);
   return (
     <main className="min-h-screen bg-gray-50">
  
       <NewsCarousel news={news} />
-      <FlipFlopSection news={flipNews} />
+      <FlipFlopSection news={flipnews} />
     </main>
   );
 }

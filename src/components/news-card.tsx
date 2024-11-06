@@ -16,7 +16,7 @@ function formatDate(timestamp: number): string {
 
 export default function NewsCard({ news,flipflop }: { news: INews,flipflop?:boolean }) {
   return (
-    <Card className="transition-all duration-75 ease-in-out hover:-translate-y-2 max-w-[360px] h-[450px] flex flex-col">
+    <Card className="transition-all duration-75 ease-in-out  max-w-[360px] h-[450px] flex flex-col">
       <CardHeader className="p-0">
         <div className="relative w-full aspect-[3/2]">
           <Image
@@ -41,7 +41,7 @@ export default function NewsCard({ news,flipflop }: { news: INews,flipflop?:bool
         <p className="text-sm text-gray-600">
           {formatDate(news.time)}
         </p>
-        <Button asChild variant="outline" className="bg-pink-50 border-pink-300 hover:-translate-y-1 transition-transform">
+        <Button asChild variant="outline" className="bg-pink-50 border-pink-300 transition-transform">
           <Link href={`/${flipflop?'flipnews':'news'}/${news.id}`}>
             Read more &rarr;
           </Link>
