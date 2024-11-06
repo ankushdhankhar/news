@@ -31,7 +31,10 @@ export default function RootLayout({
       <body
         className={`${poppins.className} antialiased bg-white`}
       >
+        <Suspense> 
+    {/* usesearchparm should be wrapped in suspense boundary. Navbar is using it to highlight link*/}
         <Navbar/>
+        </Suspense>
 
 
         {children}
