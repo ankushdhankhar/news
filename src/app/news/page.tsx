@@ -11,7 +11,7 @@ export default async function  NewsPage({searchParams}:{searchParams:Promise<{ [
     if(page===undefined)page="1";
     let pageNo=parseInt(page as string);
     
-    const {data:news,hasMore}=await getPaginatedNews(pageNo,1,category as string);
+    const {data:news,hasMore}=await getPaginatedNews(pageNo,12,category as string);
     const nextPageUrl = `/news?page=${pageNo + 1}${category ? `&category=${category}` : ''}`
   const prevPageUrl = `/news?page=${pageNo - 1}${category ? `&category=${category}` : ''}`
 
