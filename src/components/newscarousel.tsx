@@ -6,29 +6,36 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay"
+import Autoplay from "embla-carousel-autoplay";
 import { INews } from "@/lib/newsquery";
 import CarouselCard from "./carouselcard";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const  NewsCarousel = ({ news, onSeeAll }: { news: INews[]; onSeeAll?: () => void }) => {
+const NewsCarousel = ({
+  news,
+  onSeeAll,
+}: {
+  news: INews[];
+  onSeeAll?: () => void;
+}) => {
   return (
-    <div className="relative w-full max-w-6xl mx-auto px-4 py-8 overflow-hidden">
+    <div className="relative w-full max-w-6xl mx-auto px-4 py-8 overflow-">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Latest News</h2>
-        <Link href={'/news'}>
-        <Button onClick={onSeeAll} variant="outline">
-          See All News
-        </Button>
+        <Link href={"/news"}>
+          <Button onClick={onSeeAll} variant="outline">
+            See All News
+          </Button>
         </Link>
       </div>
       <Carousel
-      plugins={[
-        Autoplay({
-          delay: 10000,
-        }),
-      ]}>
+        plugins={[
+          Autoplay({
+            delay: 10000,
+          }),
+        ]}
+      >
         <CarouselContent>
           {news.map((item, index) => (
             <CarouselItem key={index}>
@@ -36,8 +43,10 @@ const  NewsCarousel = ({ news, onSeeAll }: { news: INews[]; onSeeAll?: () => voi
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious hidden/>
-        <CarouselNext hidden/>
+        <CarouselPrevious className="absolute left-[90%] top-[98%] rounded-none scale-110 shadow-md shadow-black">
+          Prev
+        </CarouselPrevious>
+        <CarouselNext className="absolute right-[2%] top-[98%] rounded-none scale-110 shadow-md shadow-black" />
       </Carousel>
     </div>
   );

@@ -1,9 +1,6 @@
-import { getAllNews, getPaginatedNews, INews } from '@/lib/newsquery'
-import NewsGrid from '@/components/news-grid'
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import NewsGrid from '@/components/news-grid';
 import PaginationButton from '@/components/pagination-buttons';
+import { getPaginatedNews } from '@/lib/newsquery';
 
 export default async function  NewsPage({searchParams}:{searchParams:Promise<{ [key: string]: string | string[] | undefined }>}) {
     let {page,category}=(await searchParams);
