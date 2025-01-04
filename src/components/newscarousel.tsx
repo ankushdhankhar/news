@@ -32,7 +32,7 @@ const NewsCarousel = ({
       <Carousel
         plugins={[
           Autoplay({
-            delay: 10000,
+            delay: 3000,
           }),
         ]}
       >
@@ -43,10 +43,10 @@ const NewsCarousel = ({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="absolute left-[90%] top-[98%] rounded-none scale-110 shadow-md shadow-black">
+        <CarouselPrevious className="absolute left-[90%] top-[110%] rounded-none scale-110 shadow-md shadow-black">
           Prev
         </CarouselPrevious>
-        <CarouselNext className="absolute right-[2%] top-[98%] rounded-none scale-110 shadow-md shadow-black" />
+        <CarouselNext className="absolute right-[2%] top-[110%] rounded-none scale-110 shadow-md shadow-black" />
       </Carousel>
     </div>
   );

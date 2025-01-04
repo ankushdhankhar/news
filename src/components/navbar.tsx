@@ -44,13 +44,13 @@ export default function Navigation() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] sm:w-[400px]">
-              <SheetTitle>Nav Menu</SheetTitle>
+              <SheetTitle>Categories</SheetTitle>
               <div className="flex flex-col gap-4 mt-8">
                 {menuItems.map((item, index) => (
                   <React.Fragment key={item.href}>
                     <Link
                       href={item.href}
-                      className={`block px-2 py-1 text-lg transition-colors ${
+                      className={`block px-2 py-1 text-sm transition-colors ${
                         isActive(item.href)
                           ? 'text-primary font-semibold'
                           : 'hover:text-primary'
@@ -68,7 +68,7 @@ export default function Navigation() {
 
           {/* Logo */}
           <div className="absolute left-1/2 -translate-x-1/2">
-            <Link href="/" className="text-2xl font-bold tracking-tight">
+            <Link href="/" className="text-3xl font-bold tracking-tight hover:text-pink-700 active:text-primary/80 transition-colors">
               The Indic Wire
             </Link>
           </div>
@@ -87,10 +87,10 @@ export default function Navigation() {
               <React.Fragment key={item.href}>
                 <Link
                   href={item.href}
-                  className={`px-3 py-2 text-sm transition-colors ${
+                  className={`px-3 py-2 text-base transition-colors ${
                     isActive(item.href)
                       ? 'text-primary font-semibold'
-                      : 'hover:text-primary'
+                      : 'hover:text-pink-700'
                   }`}
                 >
                   {item.label}

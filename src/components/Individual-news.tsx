@@ -6,7 +6,7 @@ const NewsDisplay = ({ news }: { news: INews }) => {
   return (
     <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-6 space-y-6">
       {/* Image Section */}
-      <div className="w-full h-64 rounded-lg overflow-hidden">
+      <div className="w-full h-80 rounded-lg overflow-hidden">
         <img
           src={news.imageUrl}
           alt={news.heading}

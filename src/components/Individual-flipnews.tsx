@@ -37,10 +37,10 @@ export default function FlipFlopNewsPage({ news }: { news: IFlipnews }) {
             <h1 className="text-3xl font-bold">
               {isFlipped ? news.heading2 : news.heading1}
             </h1>
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
               <span className="text-sm text-gray-500">View {currentView}</span>
               <Switch checked={isFlipped} onCheckedChange={toggleView} />
-            </div>
+            </div> */}
           </div>
           <p className="text-gray-500">Published on: {formatDate(news.time)}</p>
         </CardHeader>
@@ -53,7 +53,7 @@ export default function FlipFlopNewsPage({ news }: { news: IFlipnews }) {
               className="object-cover rounded-lg"
             />
           </div>
-          <p className="text-xl mb-4">
+          <p className="text-xl m-10">
             {isFlipped ? news.description2 : news.description1}
           </p>
           <div className="prose max-w-none">
